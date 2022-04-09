@@ -1,0 +1,16 @@
+<form [formGroup]="citySelectionList">
+    <div fd-form-set>
+        <div fd-form-item>
+            <input
+                [typeahead]="cityList"
+                formControlName="cityName"
+                fd-form-control
+                type="text"
+                id="search"
+                placeholder="Please choose a city"
+                typeaheadOptionField="name"
+            />
+        </div>
+    </div>
+    <button fd-button type="button" label="Add"  style="margin-right: 5px"></button>
+</form>
