@@ -10,15 +10,13 @@ const baseUrl = 'https://api.openweathermap.org/data/2.5/weather?';
 
 export class CityListService {
 
-  constructor(private http: HttpClient , lat: number, long: number) {
+  constructor(private http: HttpClient) {
 
   }
 
-//   getApplications(): Observable<any> {
-//     return this.http.delete<void>(`${baseUrl}lat=${this.lat}&lon=${lon}&appid=f341590409220608a85321691338fca4'`);
-//   }
+   getCityWeather(lat: number, lon: number): Observable<any> {
+    return this.http.get<void>(`${baseUrl}lat=${lat}&lon=${lon}&appid=f341590409220608a85321691338fca4`);
+ }
 
-//   deleteApplications(id: string): Observable<void> {
-//     return this.http.delete<void>(`${baseUrl}lat=${lat}&lon=${lon}&appid=f341590409220608a85321691338fca4'`);
-//   }
+
 }

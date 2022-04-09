@@ -1,7 +1,10 @@
-<form [formGroup]="citySelectionList">
+
+<div class="container">
+<form [formGroup]="citySelectionList" (ngSubmit)="onSubmit()">
     <div fd-form-set>
         <div fd-form-item>
             <input
+                [(ngModel)]="currentSelectedCity"
                 [typeahead]="cityList"
                 formControlName="cityName"
                 fd-form-control
@@ -12,5 +15,16 @@
             />
         </div>
     </div>
-    <button fd-button type="button" label="Add"  style="margin-right: 5px"></button>
+    <button fd-button id ="add" type="submit" label="Add"  style="margin-right: 5px"></button>
 </form>
+<div class="card" style="width: 300px;margin-top: 20px;" *ngFor="let city of selectedCitiesMap | keyvalue">
+    <div class="card-body">
+      <h5 class="card-title">{{city.value.name}}</h5>
+      <p class="card-text">current weather: {{city.value.temperature}}°</p>
+    </div>
+    <div class="card-body">
+      <a (click)="deleteCard(city.key)" style="cursor: pointer;" class="card-link">Delete Card</a>
+      <a href="#" class="card-link">Update Weather</a>
+    </div>
+  </div>
+</div>

@@ -7,6 +7,7 @@ import { FormModule } from '@fundamental-ngx/core/form';
 import { ButtonModule } from '@fundamental-ngx/core/button';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ButtonModule,
     TypeaheadModule.forRoot(),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
