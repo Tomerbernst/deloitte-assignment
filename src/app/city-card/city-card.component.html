@@ -1,0 +1,11 @@
+<div class="card" style="width: 300px;margin-top: 20px;"
+ *ngFor="let city of (selectedCitiesMap | async).selectedCitiesMap ">
+  <div class="card-body">
+    <h5 class="card-title">{{city.name}}</h5>
+    <p class="card-text">current weather: {{city.temperature}}°</p>
+  </div>
+  <div class="card-body">
+    <a  style="cursor: pointer;" class="card-link">Delete Card</a>
+    <a href="#" class="card-link">Update Weather</a>
+  </div>
+</div>

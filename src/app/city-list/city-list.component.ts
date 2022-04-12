@@ -1,67 +1,79 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
-import cities from '../../assets/cities.json';
-import { CityListService } from  './city-list.service';
-import { map } from 'rxjs/operators';
-
-export interface cityListItem {
-    name: string;
-    temperature: number;
-}
-
+import { Component, OnInit } from "@angular/core";
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormArray,
+  FormBuilder,
+} from "@angular/forms";
+import cities from "../../assets/cities.json";
+import { CityListService } from "./city-list.service";
+import { map } from "rxjs/operators";
+import { CityListItem } from "../core/city-list-item";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+import * as CityListAction from "./city-list.actions";
 
 @Component({
-  selector: 'app-city-list',
-  templateUrl: './city-list.component.html',
-  styleUrls: ['./city-list.component.scss']
+  selector: "app-city-list",
+  templateUrl: "./city-list.component.html",
+  styleUrls: ["./city-list.component.scss"],
 })
 export class CityListComponent implements OnInit {
-  cityList: {name:string, latitude:number, longitude: number}[] = cities; 
+  cityList: { name: string; latitude: number; longitude: number }[] = cities;
   currentSelectedCity: string;
   citySelectionList: FormGroup;
-  lat: number;
-  long: number;
-  selectedCitiesMap: Map<number, cityListItem> =new Map<number, cityListItem>();
-
-
-  
-
-  constructor(private cityListService: CityListService) { }
+  selectedCitiesMap: Observable<{ selectedCitiesMap: CityListItem[] }>;
+  idSet = new Set();
+  constructor(
+    private cityListService: CityListService,
+    private store: Store<{ cityMap: { selectedCitiesMap: CityListItem[] } }>
+  ) {}
 
   ngOnInit(): void {
-    console.log(this.cityList);
     this.citySelectionList = new FormGroup({
-      'cityName': new FormControl(null, Validators.required),
-    })
+      cityName: new FormControl(null, Validators.required),
+    });
+    navigator.geolocation
+    navigator.geolocation.getCurrentPosition(position => {
+    this.insertData(position.coords.longitude,position.coords.latitude);
+    });
 
-  }
-  deleteCard(id:number) {
-    console.log(id);
-    this.selectedCitiesMap.delete(id);
+    this.selectedCitiesMap = this.store.select("cityMap");
+    this.selectedCitiesMap.subscribe((res) => console.log(res));
   }
 
   onSubmit() {
-    this.long = 0;
-    this.lat = 0;
-    for(let x in this.cityList) {
-      if(this.cityList[x].name == this.currentSelectedCity){
-        this.long = this.cityList[x].longitude;
-        this.lat = this.cityList[x].latitude;
+    let long: number = 0;
+    let lat: number = 0;
+
+    for (let x in this.cityList) {
+      if (this.cityList[x].name == this.currentSelectedCity) {
+        long = this.cityList[x].longitude;
+        lat = this.cityList[x].latitude;
         break;
       }
-   }
-    if(this.long && this.lat) {
-      console.log(this.long +' '+ this.lat+'' + this.currentSelectedCity) ;
-
-      this.cityListService.getCityWeather(this.lat, this.long)
-      .subscribe((res) => {
-          console.log(res);
-          this.selectedCitiesMap.set(res.id, {"name": this.currentSelectedCity, "temperature":Math.round(res.main.temp - 273.15)});
-          console.log( this.selectedCitiesMap);
-        }
-      );
     }
+    this.insertData(long, lat);
+  }
 
+  insertData(long: number, lat: number) {
+    if (long && lat) {
+      this.cityListService.getCityWeather(lat, long).subscribe((res) => {
+        if (!this.idSet.has(res.id)) {
+          this.store.dispatch(
+            new CityListAction.AddCard(
+              new CityListItem(
+                res.id,
+                typeof this.currentSelectedCity == 'undefined' ? res.name: this.currentSelectedCity,
+                Math.round(res.main.temp - 273.15)
+              )
+            )
+          );
+          this.idSet.add(res.id);
+        }
+      });
+    }
   }
 
 }

@@ -8,21 +8,27 @@ import { ButtonModule } from '@fundamental-ngx/core/button';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CityCardComponent } from './city-card/city-card.component';
+import { ActionReducerMap, StoreModule } from '@ngrx/store';
+import { CityListItem } from './core/city-list-item';
+import { cityListReducer } from './city-list/city-list.reducer';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CityListComponent
+    CityListComponent,
+    CityCardComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormModule,
     ButtonModule,
-    TypeaheadModule.forRoot(),
+    TypeaheadModule.forRoot(),  
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot({cityMap: cityListReducer})
   ],
   providers: [],
   bootstrap: [AppComponent]

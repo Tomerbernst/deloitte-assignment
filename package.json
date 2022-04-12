@@ -23,6 +23,7 @@
     "@angular/router": "~12.0.0",
     "@fundamental-ngx/core": "^0.33.7",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
+    "@ngrx/store": "^13.1.0",
     "@sap-theming/theming-base-content": "11.1.38",
     "bootstrap": "^4.5.0",
     "fundamental-styles": "v0.21.0-rc.92",
