@@ -1,7 +1,15 @@
+form {
+    margin-left:20px;
+}
+
 #search {
     width: 300px;
 }
 #add {
     width: 300px;
 
+}
+
+input.ng-invalid.ng-touched{
+    border:1px solid red;
 }

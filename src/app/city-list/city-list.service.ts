@@ -14,9 +14,14 @@ export class CityListService {
 
   }
 
-   getCityWeather(lat: number, lon: number): Observable<any> {
+  getWeatherByCityCoord(lat: number, lon: number): Observable<any> {
     return this.http.get<void>(`${baseUrl}lat=${lat}&lon=${lon}&appid=f341590409220608a85321691338fca4`);
  }
+
+ getWeatherByCityId(id: number): Observable<any> {
+  return this.http.get<void>(`${baseUrl}id=${id}&appid=f341590409220608a85321691338fca4
+`);
+}
 
 
 }

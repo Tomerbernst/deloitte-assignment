@@ -1,11 +1,14 @@
-<div class="card" style="width: 300px;margin-top: 20px;"
- *ngFor="let city of (selectedCitiesMap | async).selectedCitiesMap ">
-  <div class="card-body">
-    <h5 class="card-title">{{city.name}}</h5>
-    <p class="card-text">current weather: {{city.temperature}}°</p>
-  </div>
-  <div class="card-body">
-    <a  style="cursor: pointer;" class="card-link">Delete Card</a>
-    <a href="#" class="card-link">Update Weather</a>
+<div class="row">
+  <div class="col-sm-6" *ngFor="let city of (cities | async).cities">
+     <div class="card" style="width: 300px;margin-top: 20px;">
+        <div class="card-body">
+           <h5 class="card-title">{{city.name}}</h5>
+           <p class="card-text">current weather: {{city.temperature}}°</p>
+        </div>
+        <div class="card-body">
+           <a  (click)="deleteCard(city.id)" style="cursor: pointer;" class="card-link">Delete Card</a>
+           <a (click)="updateCard(city.id)"  style="cursor: pointer;" class="card-link">Update Weather</a>
+        </div>
+     </div>
   </div>
 </div>

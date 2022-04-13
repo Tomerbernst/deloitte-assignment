@@ -1,9 +1,9 @@
-<form [formGroup]="citySelectionList" (ngSubmit)="onSubmit()">
+<form [formGroup]="citySelectionForm" (ngSubmit)="onSubmit()">
     <div fd-form-set>
         <div fd-form-item>
             <input
                 [(ngModel)]="currentSelectedCity"
-                [typeahead]="cityList"
+                [typeahead]="valueListCity"
                 formControlName="cityName"
                 fd-form-control
                 type="text"
@@ -11,6 +11,8 @@
                 placeholder="Please choose a city"
                 typeaheadOptionField="name"
             />
+            <span *ngIf="!citySelectionForm.get('cityName').valid && citySelectionForm.get('cityName').touched"
+            class="help-block">Please enter a city</span>
         </div>
     </div>
     <button fd-button id ="add" type="submit" label="Add"  style="margin-right: 5px"></button>
